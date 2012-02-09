@@ -10,4 +10,5 @@ public interface GelfMessageProvider {
     public String getFacility();
     public Map<String, String> getFields();
     public boolean isAddExtendedInformation();
+    public boolean getFacilityIsLogger();
 }
