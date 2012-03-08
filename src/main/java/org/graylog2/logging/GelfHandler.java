@@ -155,8 +155,8 @@ public class GelfHandler
   private GelfMessage makeMessage( final LogRecord record )
   {
     String message = record.getMessage();
+    String shortMessage;
 
-    final String shortMessage;
     if ( message.length() > MAX_SHORT_MESSAGE_LENGTH )
     {
       shortMessage = message.substring( 0, MAX_SHORT_MESSAGE_LENGTH - 1 );
@@ -174,6 +174,10 @@ public class GelfHandler
         final StringWriter sw = new StringWriter();
         thrown.printStackTrace( new PrintWriter( sw ) );
         message += "\n\r" + sw.toString();
+
+        if ( shortMessage.length() == 0 ) {
+            shortMessage += "\n\r" + sw.toString();
+        }
       }
     }
 
