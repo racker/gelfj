@@ -59,6 +59,10 @@ public class GelfMessageFactory {
             gelfMessage.setFacility(provider.getFacility());
         }
 
+        if (provider.getFacilityIsLogger()) {
+            gelfMessage.setFacility(event.getLoggerName());
+        }
+
         Map<String, String> fields = provider.getFields();
         for (Map.Entry<String, String> entry : fields.entrySet()) {
             if (entry.getKey().equals(ORIGIN_HOST_KEY) && gelfMessage.getHost() == null) {

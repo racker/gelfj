@@ -29,7 +29,8 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
     private boolean extractStacktrace;
     private boolean addExtendedInformation;
     private Map<String, String> fields;
-    
+    private boolean facilityIsLogger;
+
     // parent overrides.
     
     public GelfConsoleAppender() {
@@ -76,6 +77,14 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
 
     public String getFacility() {
         return null;
+    }
+
+    public void setFacilityIsLogger(boolean facilityIsLogger) {
+        this.facilityIsLogger = facilityIsLogger;
+    }
+    
+    public boolean getFacilityIsLogger() {
+        return this.facilityIsLogger;
     }
 
     public Map<String, String> getFields() {

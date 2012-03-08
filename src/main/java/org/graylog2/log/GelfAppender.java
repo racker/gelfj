@@ -37,6 +37,7 @@ public class GelfAppender extends AppenderSkeleton implements GelfMessageProvide
     private boolean extractStacktrace;
     private boolean addExtendedInformation;
     private Map<String, String> fields;
+    private boolean facilityIsLogger;
 
     public GelfAppender() {
         super();
@@ -102,6 +103,14 @@ public class GelfAppender extends AppenderSkeleton implements GelfMessageProvide
 
     public boolean isAddExtendedInformation() {
         return addExtendedInformation;
+    }
+
+    public void setFacilityIsLogger(boolean facilityIsLogger) {
+        this.facilityIsLogger = facilityIsLogger;
+    }
+
+    public boolean getFacilityIsLogger() {
+        return facilityIsLogger;
     }
 
     public void setAddExtendedInformation(boolean addExtendedInformation) {
