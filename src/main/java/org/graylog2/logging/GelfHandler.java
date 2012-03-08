@@ -155,16 +155,8 @@ public class GelfHandler
   private GelfMessage makeMessage( final LogRecord record )
   {
     String message = record.getMessage();
-
-    final String shortMessage;
-    if ( message.length() > MAX_SHORT_MESSAGE_LENGTH )
-    {
-      shortMessage = message.substring( 0, MAX_SHORT_MESSAGE_LENGTH - 1 );
-    }
-    else
-    {
-      shortMessage = message;
-    }
+    String shortMessage = new String(message);
+    String stackTrace;
 
     if ( extractStacktrace )
     {
@@ -173,8 +165,18 @@ public class GelfHandler
       {
         final StringWriter sw = new StringWriter();
         thrown.printStackTrace( new PrintWriter( sw ) );
-        message += "\n\r" + sw.toString();
+        stackTrace = "\n\r" + sw.toString();
+        message += stackTrace;
+
+        if ( shortMessage.length() == 0 ) {
+            shortMessage += stackTrace;
+        }
       }
+    }
+
+    if ( shortMessage.length() > MAX_SHORT_MESSAGE_LENGTH )
+    {
+      shortMessage = shortMessage.substring( 0, MAX_SHORT_MESSAGE_LENGTH - 1 );
     }
 
     final GelfMessage gelfMessage =
