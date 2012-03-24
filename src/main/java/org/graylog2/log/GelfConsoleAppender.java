@@ -24,15 +24,16 @@ import java.util.Map;
  * 
  */
 public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageProvider{
-    
+
     private static String originHost;
     private boolean extractStacktrace;
     private boolean addExtendedInformation;
     private Map<String, String> fields;
+    private String facility;
     private boolean facilityIsLogger;
 
     // parent overrides.
-    
+
     public GelfConsoleAppender() {
         super();    //To change body of overridden methods use File | Settings | File Templates.
     }
@@ -44,13 +45,13 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
     public GelfConsoleAppender(Layout layout, String target) {
         super(layout, target);    //To change body of overridden methods use File | Settings | File Templates.
     }
-    
+
     // GelfMessageProvider interface.
-    
+
     public void setAdditionalFields(String additionalFields) {
         fields = (Map<String, String>) JSONValue.parse(additionalFields.replaceAll("'", "\""));
     }
-    
+
     public boolean isExtractStacktrace() {
         return extractStacktrace;
     }
@@ -58,7 +59,7 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
     public void setExtractStacktrace(boolean extractStacktrace) {
         this.extractStacktrace = extractStacktrace;
     }
-    
+
     public boolean isAddExtendedInformation() {
         return addExtendedInformation;
     }
@@ -66,7 +67,7 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
     public void setAddExtendedInformation(boolean addExtendedInformation) {
         this.addExtendedInformation = addExtendedInformation;
     }
-    
+
     public String getOriginHost() {
         return originHost;
     }
@@ -76,13 +77,17 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
     }
 
     public String getFacility() {
-        return null;
+        return facility;
+    }
+
+    public void setFacility(String facility) {
+        this.facility = facility;
     }
 
     public void setFacilityIsLogger(boolean facilityIsLogger) {
         this.facilityIsLogger = facilityIsLogger;
     }
-    
+
     public boolean getFacilityIsLogger() {
         return this.facilityIsLogger;
     }
@@ -95,7 +100,7 @@ public class GelfConsoleAppender extends ConsoleAppender implements GelfMessageP
     }
 
     // the important parts.
-    
+
     @Override
     protected void subAppend(LoggingEvent event) {
         GelfMessage gelf = GelfMessageFactory.makeMessage(event, this);
